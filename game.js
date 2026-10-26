@@ -74,7 +74,7 @@ class Game {
     return best;
   }
 
-  resolveDropoff(delta) {
+   resolveDropoff(delta) {
     const junk = this.magpie.capturedJunk;
     if (junk === null) {
       return false;
@@ -85,6 +85,7 @@ class Game {
       this.mothership.physics.x,
       this.mothership.physics.y
     );
+    console.log(d, Mothership.PICKUP_DIAMETER / 2, junk.dropoffTime);
     if (d < Mothership.PICKUP_DIAMETER / 2) {
       junk.dropoffTime += delta;
     } else {
