@@ -24,7 +24,14 @@ class Magpie {
     drawEverywhere({
       offset: this.physics,
       drawFn: () => {
-        // TODO (Phase 4): draw captured junk here
+        // cargo first, so the ship is drawn on top of it
+        if (this.capturedJunk) {
+          push();
+          rotate(this.physics.rotation);
+          translate(0, Magpie.CARGO_Y);
+          Junk.drawJunk();
+          pop();
+        }
         Magpie.drawMagpie({ rotation: this.physics.rotation, beam: this.beam });
         if (game.debug) {
           this.physics.draw();
@@ -35,7 +42,8 @@ class Magpie {
   }
 
   captureJunk(junk) {
-    // TODO (Phase 4)
+    this.capturedJunk = junk;
+    this.enableBeam(false);
   }
 
   static drawMagpie({ rotation, beam }) {
@@ -44,7 +52,6 @@ class Magpie {
     rectMode(CENTER);
     noStroke();
 
-    // beam first, so the ship is drawn on top of it
     if (beam) {
       fill("#f5f37040");
       triangle(
@@ -105,7 +112,6 @@ class Magpie {
   }
 
   enableBeam(v) {
-    // off always works; on only works when we aren't carrying junk
     this.beam = v && this.capturedJunk === null;
   }
 }
